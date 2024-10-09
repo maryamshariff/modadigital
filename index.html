@@ -18,27 +18,30 @@
   }
 
   .red {
-    background-color: red;
+    background-color: #BEB8EB;
   }
 
   .blue {
-    background-color: blue;
+    background-color: black;
   }
 
   .yellow {
-    background-color: yellow;
+    background-color: black;
   }
 
   .pink {
-    background-color: pink;
+    background-color: black;
   }
 
   .light-blue {
-    background-color: lightblue;
+    background-color: black;
   }
 
   .background {
     position: absolute;
+    background-color: black;
+    width: 100vw;  /* Ensures the background covers the entire viewport width */
+    height: 100vh; 
     top: 0px;
     left: 0px;
     z-index: -1;
@@ -72,7 +75,7 @@
 
     function animation() {
       newPixel();
-      setTimeout(animation, 70);
+      setTimeout(animation, 25);
     }
 
     nn.on('load', animation);
