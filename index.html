@@ -45,6 +45,7 @@
     top: 0px;
     left: 0px;
     z-index: -1;
+    overflow: hidden; /* Ensures the elements don't overflow outside */
   }
 </style>
 
@@ -56,6 +57,11 @@
   <script>
     /* global nn */
 
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    let pixelCounter = 0;
+    let maxPixels = (screenWidth / 40) * (screenHeight / 40); // Max number of pixels based on screen size
+
     function getRandomColor() {
       const colors = ['red', 'blue', 'yellow', 'pink', 'light-blue'];
       const randomIndex = Math.floor(Math.random() * colors.length);
@@ -63,19 +69,31 @@
     }
 
     function newPixel() {
-      const div = nn.create('div');
-      if (nn.random() > 0.5) {
-        div.setAttribute('class', 'diamond ' + getRandomColor());
+      if (pixelCounter >= maxPixels) {
+        resetAnimation(); // Reset the animation when max pixels are reached
       } else {
-        const colorClass = getRandomColor();
-        div.setAttribute('class', colorClass);
+        const div = nn.create('div');
+        if (nn.random() > 0.5) {
+          div.setAttribute('class', 'diamond ' + getRandomColor());
+        } else {
+          const colorClass = getRandomColor();
+          div.setAttribute('class', colorClass);
+        }
+        div.addTo('.background');
+        pixelCounter++;
       }
-      div.addTo('.background');
+    }
+
+    function resetAnimation() {
+      const background = nn.get('.background');
+      background.innerHTML = ''; // Clear all blocks
+      pixelCounter = 0; // Reset the pixel counter
+      animation(); // Restart the animation
     }
 
     function animation() {
       newPixel();
-      setTimeout(animation, 25);
+      setTimeout(animation, 25); // Loop the animation with a delay
     }
 
     nn.on('load', animation);
@@ -146,6 +164,9 @@
     nn.on('click', newPatch);
   </script>
 </body>
+
+</body>
+
 
 
 
